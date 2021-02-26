@@ -1,0 +1,58 @@
+body {
+  margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3288f8;
+  color: white;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid 1px #3288f8;
+}
+
+#pasta {
+  display: flex;
+  flex-direction: row;
+}
+
+.sDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#citiesHeader {
+  background-color: #f2f7fd;
+  padding: 10px;
+  color: #3288f8;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#citiesDiv, #countriesDiv {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cityDiv, .countryDiv {
+  border: solid 1px #3288f8;
+  color: #3288f8;
+  background-color: #f2f7fd;
+  border-radius: 5px;
+  user-select: none;
+}
+
+#pizza {
+  flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
