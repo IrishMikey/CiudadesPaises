@@ -4,11 +4,14 @@ import { gameData } from "./questions.js"
 const startBtn = document.getElementById("startBtn");
 var timer = document.getElementById("timer");
 var time = 0;
-var countryTemplate = document.getElementById("countryTemplate");
-var cityTemplate = document.getElementById("cityTemplate");
+
+const countryTemplate = document.getElementById("countryTemplate");
+const cityTemplate = document.getElementById("cityTemplate");
+
+const countryContainer = document.getElementById("countriesContainer");
+const cityContainer = document.getElementById("citiesContainer");
 
 var selectedCountries = [];
-var selectedCities = [];
 
 const numCountries = 5;
 const numCities = 3;
@@ -18,10 +21,7 @@ startBtn.addEventListener("click", (e) => {
     e.target.disabled = true;
 })
 
-function startGame() {
-    setInterval(timerStart, 1000);
-    getCountriesCities(gameData.countries);
-}
+
 function timerStart() {
     timer.innerHTML = time++ + "s";
 }
@@ -35,9 +35,39 @@ function getCountriesCities(data) {
         var cityNum = Math.floor(Math.random() * numCities);
         var city = country.cities[cityNum];
 
-        selectedCountries.push({ country, city });
+        selectedCountries.push({ city, country });
 
-    } while (selectedCountries.length < countryNum);
+    } while (selectedCountries.length < numCountries);
 
     console.log(selectedCountries);
+}
+
+function createGameElements() {
+    selectedCountries.forEach(({city, country}) =>{
+
+        var cityClone = cityTemplate.content.firstElementChild.cloneNode(true);
+        cityClone.firstElementChild.textContent = city.name;
+        cityClone.setAttribute("data-location", city.location);
+
+        var countryClone = countryTemplate.content.firstElementChild.cloneNode(true);
+        countryClone.firstElementChild.textContent = country.name;
+        countryClone.setAttribute("data-code", country.code);
+
+
+        $(city).draggable({
+            revert:true
+        });
+
+        
+
+        cityContainer.appendChild(cityClone);
+        countryContainer.appendChild(countryClone);
+    });
+}
+
+function startGame() {
+    setInterval(timerStart, 1000);
+    getCountriesCities(gameData.countries);
+
+    createGameElements();
 }

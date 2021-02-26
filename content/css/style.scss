@@ -37,9 +37,12 @@ section {
     width: 100%;
 }
 
-#citiesDiv, #countriesDiv {
+#citiesContainer, #countriesContainer {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    height: 48%;
+    border-bottom: $maincolour 1px solid;
 }
 
 .cityDiv, .countryDiv {
@@ -48,6 +51,7 @@ section {
     background-color: $secondcolour;
     border-radius: 5px;
     user-select: none;
+    
 }
 
 #pizza{

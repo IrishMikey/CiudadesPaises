@@ -37,9 +37,12 @@ section {
   width: 100%;
 }
 
-#citiesDiv, #countriesDiv {
+#citiesContainer, #countriesContainer {
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  height: 48%;
+  border-bottom: #3288f8 1px solid;
 }
 
 .cityDiv, .countryDiv {
