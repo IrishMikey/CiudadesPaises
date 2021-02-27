@@ -17,8 +17,10 @@ var selectedCountriesCities = [];
 var selectedCountries = [];
 var selectedCities = [];
 
-const numCountries = 5;
+const numCountries = 7;
 const numCities = 3;
+
+const numCountriesElements = 5;
 
 var numCorrect = 0;
 var numOfGames = 0;
@@ -42,17 +44,26 @@ function timerStart() {
 }
 
 function getCountriesCities(data) {
-
     do {
-        var countryNum = Math.floor(Math.random() * numCountries);
+        var addCountry = true;
+
+        var countryNum = Math.floor((Math.random() * numCountries));
         var country = data[countryNum];
 
-        var cityNum = Math.floor(Math.random() * numCities);
+        var cityNum = Math.floor((Math.random() * numCities));
         var city = country.cities[cityNum];
 
-        selectedCountriesCities.push({ city, country });
 
-    } while (selectedCountriesCities.length < numCountries);
+        selectedCountriesCities.forEach(entry => {
+            if (entry.country.name == country.name) {
+                addCountry = false;
+            }
+        });
+
+        if (addCountry) {
+            selectedCountriesCities.push({ city, country });
+        }
+    } while (selectedCountriesCities.length < numCountriesElements);
 
 }
 
@@ -104,7 +115,7 @@ function endGame() {
 
     gameDuration = timer.innerHTML.split("s");
     clearInterval(timerStarter);
-    timeChart(numOfGames, parseInt(gameDuration,10));
+    timeChart(numOfGames, parseInt(gameDuration, 10));
     startBtn.disabled = false;
     numCorrect = 0;
 
