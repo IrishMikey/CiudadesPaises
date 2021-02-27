@@ -1,21 +1,22 @@
 <html lang="en">
 
 <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="content/css/style.css">
 
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link type="text/css" href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin="" />
 
     <link type="text/css" rel="stylesheet" href="./content/jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.css">
+
+    <link rel="stylesheet" href="content/css/style.css">
 
     <title>Ciudades y Países</title>
 </head>
@@ -48,7 +49,7 @@
                                 <h2></h2>
                             </div>
                             <div id="dropZone">
-    
+
                             </div>
                         </div>
                     </template>
@@ -57,14 +58,20 @@
 
             <div id='map' style='width:900px; height: 500px;'></div>
         </section>
-        <section></section>
+        <section>
+            <div id="timeChart"></div>
+            <div id="pieChart"></div>
+        </section>
     </main>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
 
     <script src="./content/jquery-ui-1.12.1/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
     <script src="./content/jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.js"></script>
 
     <script src="./content/JS/script.js" type="module"></script>
     <script src="./content/JS/map.js" type="module"></script>
+    <script src="./content/JS/gcharts.js" type="module"></script>
 </body>
 
 </html>

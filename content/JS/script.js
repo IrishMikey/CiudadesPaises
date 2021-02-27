@@ -1,7 +1,6 @@
-// import { map } from "./map.js";
 import { gameData } from "./questions.js"
-import {setMap} from "./map.js"
-
+import { setMap } from "./map.js"
+import {createPie} from "./gcharts.js"
 const startBtn = document.getElementById("startBtn");
 var timer = document.getElementById("timer");
 var time = 0;
@@ -12,18 +11,29 @@ const cityTemplate = document.getElementById("cityTemplate");
 const countryContainer = document.getElementById("countriesContainer");
 const cityContainer = document.getElementById("citiesContainer");
 
+var timerStarter;
+
+var selectedCountriesCities = [];
 var selectedCountries = [];
+var selectedCities = [];
 
 const numCountries = 5;
 const numCities = 3;
 
+var numCorrect = 0;
 var numOfGames = 0;
 var gameDuration = 0;
 
 
 startBtn.addEventListener("click", (e) => {
-    startGame();
+    clearNodes(countryContainer);
+    clearNodes(cityContainer);
+
+    time = 0;
+    selectedCountriesCities = [];
     e.target.disabled = true;
+
+    startGame();
 })
 
 
@@ -40,15 +50,14 @@ function getCountriesCities(data) {
         var cityNum = Math.floor(Math.random() * numCities);
         var city = country.cities[cityNum];
 
-        selectedCountries.push({ city, country });
+        selectedCountriesCities.push({ city, country });
 
-    } while (selectedCountries.length < numCountries);
+    } while (selectedCountriesCities.length < numCountries);
 
-    console.log(selectedCountries);
 }
 
 function createGameElements() {
-    selectedCountries.forEach(({ city, country }) => {
+    selectedCountriesCities.forEach(({ city, country }) => {
 
         var cityClone = cityTemplate.content.firstElementChild.cloneNode(true);
 
@@ -60,14 +69,47 @@ function createGameElements() {
         countryClone.firstElementChild.firstElementChild.firstElementChild.textContent = country.name;
         countryClone.firstElementChild.setAttribute("data-code", country.code);
 
-        cityContainer.appendChild(cityClone);
-        countryContainer.appendChild(countryClone);
+        selectedCities.push(cityClone);
+        selectedCountries.push(countryClone);
+
+
     });
 
+    addNodes();
     dragDrop();
+
+}
+function addNodes(){
+    while(selectedCities.length > 0){
+        var num = Math.floor(Math.random() * selectedCities.length);
+        cityContainer.appendChild(selectedCities[num]);
+        selectedCities.splice(num,1);
+    }
+    while(selectedCountries.length > 0){
+        var num = Math.floor(Math.random() * selectedCountries.length);
+        countryContainer.appendChild(selectedCountries[num]);
+        selectedCountries.splice(num,1);
+    }
+}
+function clearNodes(container) {
+    
+    while(container.hasChildNodes()){
+        container.removeChild(container.firstChild)
+    }
+    
 }
 
-function dragDrop(){
+function endGame() {
+    gameDuration = timer.innerHTML.split("s");
+    clearInterval(timerStarter);
+
+    startBtn.disabled = false;
+    numCorrect = 0;
+
+    numOfGames++;
+}
+
+function dragDrop() {
 
     $(".cityDiv").draggable({
         revert: true
@@ -76,18 +118,32 @@ function dragDrop(){
     $(".countryDropDiv").droppable({
 
         tolerance: "touch",
-        drop: function(e, dropped){
-            console.log(dropped.draggable[0]);
-            if(dropped.draggable[0].dataset.code == this.dataset.code){
-                this.lastChild.previousSibling.style.backgroundColor = "lightgreen"; 
-                console.log()
+        drop: function (e, dropped) {
+            if (dropped.draggable[0].dataset.code == this.dataset.code) {
+                this.lastChild.previousSibling.style.backgroundColor = "lightgreen";
                 $(dropped.draggable[0]).draggable({
                     revert: false
                 });
-                $(dropped.draggable[0]).draggable("destroy",true);
-                $(this).droppable("destroy",true);
+
+                $(dropped.draggable[0]).draggable("destroy", true);
+                $(this).droppable("destroy", true);
+
                 var location = dropped.draggable[0].dataset.location.split(",");
-                setMap(location);
+                setMap(location, dropped.draggable[0].textContent);
+                
+                
+                createPie(this.innerText);
+                
+                
+                
+                
+                numCorrect++;
+
+
+                if (numCorrect == 5) {
+                    endGame();
+                }
+
             }
         }
     });
@@ -95,7 +151,7 @@ function dragDrop(){
 
 
 function startGame() {
-    setInterval(timerStart, 1000);
+    timerStarter = setInterval(timerStart, 1000);
     getCountriesCities(gameData.countries);
 
     createGameElements();

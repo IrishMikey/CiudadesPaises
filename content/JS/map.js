@@ -2,39 +2,25 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibWlrZXlnMDAwIiwiYSI6ImNrbGlpYTBpNzJzb3Uyb3M4eDd6bjljOGIifQ.8Iz6WakEKJ0LwiEYlz5p9A';
 
 
+
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: [ -16.667297099586918, 28.266339166914378],
-    zoom: 9,
+    center: [-16.28343672568356, 28.456046923017453],
+    zoom: 15,
 });
 
-function getUserLocation() {
+var mapPin = new mapboxgl.Marker()
+    .setLngLat([-16.28343672568356, 28.456046923017453])
+    .setPopup(new mapboxgl.Popup().setHTML("<h3>CIFP César Manrique!</h3>"))
+    .addTo(map);
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setUserLocation);
+mapPin.togglePopup();
 
-    } else {
-        console.log("No has permitido el uso de tu locacion");
-    }
+export function setMap(location, city) {
 
-}
-function setUserLocation(position) {
-    map.flyTo({
-        center: [
-            position.coords.longitude,
-            position.coords.latitude
-        ],
-        zoom:10,
-        essential: true
-    });
-}
-
-getUserLocation();
-
-
-
-export function setMap(location) {
+    mapPin.remove();
 
     map.flyTo({
         center: [
@@ -44,8 +30,11 @@ export function setMap(location) {
         essential: true
     });
 
-    var mapPin = new mapboxgl.Marker()
+    mapPin = new mapboxgl.Marker()
         .setLngLat([location[1], location[0]])
-        .addTo(map)
-}
+        .setPopup(new mapboxgl.Popup().setHTML("<h3>"+city+"</h3>"))
+        .addTo(map);
 
+    mapPin.togglePopup();
+
+}
