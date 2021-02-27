@@ -30,7 +30,7 @@ gameData.countries.forEach(country => {
     });
 });
 
-var lineOcurrencias;
+var lineTiempo;
 const lineOptions = {
     'title': 'Tiempos de Partidas',
     curveType: 'function',
@@ -58,8 +58,8 @@ function drawChart() {
     lineData.addColumn("number","Tiempo");
     lineData.addRows([[0, 0]]);
 
-    lineOcurrencias = new google.visualization.LineChart(document.getElementById('timeChart'));
-    lineOcurrencias.draw(lineData, lineOptions);
+    lineTiempo = new google.visualization.LineChart(document.getElementById('timeChart'));
+    lineTiempo.draw(lineData, lineOptions);
 
 }
 
@@ -78,4 +78,11 @@ export function createPie(countryCurrent) {
 
     pieOcurrencias.draw(pieData, pieOptions);
 
+}
+
+export function timeChart(rounds, time){
+    lineData.addRows([
+        [rounds, time]
+    ]);
+    lineTiempo.draw(lineData, lineOptions);
 }

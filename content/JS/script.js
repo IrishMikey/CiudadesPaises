@@ -1,6 +1,6 @@
 import { gameData } from "./questions.js"
 import { setMap } from "./map.js"
-import {createPie} from "./gcharts.js"
+import { createPie, timeChart } from "./gcharts.js"
 const startBtn = document.getElementById("startBtn");
 var timer = document.getElementById("timer");
 var time = 0;
@@ -79,34 +79,35 @@ function createGameElements() {
     dragDrop();
 
 }
-function addNodes(){
-    while(selectedCities.length > 0){
+function addNodes() {
+    while (selectedCities.length > 0) {
         var num = Math.floor(Math.random() * selectedCities.length);
         cityContainer.appendChild(selectedCities[num]);
-        selectedCities.splice(num,1);
+        selectedCities.splice(num, 1);
     }
-    while(selectedCountries.length > 0){
+    while (selectedCountries.length > 0) {
         var num = Math.floor(Math.random() * selectedCountries.length);
         countryContainer.appendChild(selectedCountries[num]);
-        selectedCountries.splice(num,1);
+        selectedCountries.splice(num, 1);
     }
 }
 function clearNodes(container) {
-    
-    while(container.hasChildNodes()){
+
+    while (container.hasChildNodes()) {
         container.removeChild(container.firstChild)
     }
-    
+
 }
 
 function endGame() {
+    numOfGames++;
+
     gameDuration = timer.innerHTML.split("s");
     clearInterval(timerStarter);
-
+    timeChart(numOfGames, parseInt(gameDuration,10));
     startBtn.disabled = false;
     numCorrect = 0;
 
-    numOfGames++;
 }
 
 function dragDrop() {
@@ -130,13 +131,13 @@ function dragDrop() {
 
                 var location = dropped.draggable[0].dataset.location.split(",");
                 setMap(location, dropped.draggable[0].textContent);
-                
-                
+
+
                 createPie(this.innerText);
-                
-                
-                
-                
+
+
+
+
                 numCorrect++;
 
 
