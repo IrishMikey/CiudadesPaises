@@ -45,12 +45,26 @@ section {
   border-bottom: #3288f8 1px solid;
 }
 
-.cityDiv, .countryDiv {
+h2 {
+  padding: 5px;
+  margin: 1px;
+}
+
+.cityDiv, .countryDropDiv {
+  text-align: center;
   border: solid 1px #3288f8;
   color: #3288f8;
   background-color: #f2f7fd;
   border-radius: 5px;
   user-select: none;
+}
+
+.countryDropDiv {
+  min-width: 10%;
+}
+
+#dropZone {
+  height: 40%;
 }
 
 #pizza {

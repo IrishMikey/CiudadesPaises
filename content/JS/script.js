@@ -1,5 +1,6 @@
 // import { map } from "./map.js";
 import { gameData } from "./questions.js"
+import {setMap} from "./map.js"
 
 const startBtn = document.getElementById("startBtn");
 var timer = document.getElementById("timer");
@@ -15,6 +16,10 @@ var selectedCountries = [];
 
 const numCountries = 5;
 const numCities = 3;
+
+var numOfGames = 0;
+var gameDuration = 0;
+
 
 startBtn.addEventListener("click", (e) => {
     startGame();
@@ -43,27 +48,51 @@ function getCountriesCities(data) {
 }
 
 function createGameElements() {
-    selectedCountries.forEach(({city, country}) =>{
+    selectedCountries.forEach(({ city, country }) => {
 
         var cityClone = cityTemplate.content.firstElementChild.cloneNode(true);
+
         cityClone.firstElementChild.textContent = city.name;
+        cityClone.setAttribute("data-code", country.code);
         cityClone.setAttribute("data-location", city.location);
 
-        var countryClone = countryTemplate.content.firstElementChild.cloneNode(true);
-        countryClone.firstElementChild.textContent = country.name;
-        countryClone.setAttribute("data-code", country.code);
-
-
-        $(city).draggable({
-            revert:true
-        });
-
-        
+        var countryClone = countryTemplate.content.cloneNode(true);
+        countryClone.firstElementChild.firstElementChild.firstElementChild.textContent = country.name;
+        countryClone.firstElementChild.setAttribute("data-code", country.code);
 
         cityContainer.appendChild(cityClone);
         countryContainer.appendChild(countryClone);
     });
+
+    dragDrop();
 }
+
+function dragDrop(){
+
+    $(".cityDiv").draggable({
+        revert: true
+    });
+
+    $(".countryDropDiv").droppable({
+
+        tolerance: "touch",
+        drop: function(e, dropped){
+            console.log(dropped.draggable[0]);
+            if(dropped.draggable[0].dataset.code == this.dataset.code){
+                this.lastChild.previousSibling.style.backgroundColor = "lightgreen"; 
+                console.log()
+                $(dropped.draggable[0]).draggable({
+                    revert: false
+                });
+                $(dropped.draggable[0]).draggable("destroy",true);
+                $(this).droppable("destroy",true);
+                var location = dropped.draggable[0].dataset.location.split(",");
+                setMap(location);
+            }
+        }
+    });
+}
+
 
 function startGame() {
     setInterval(timerStart, 1000);
